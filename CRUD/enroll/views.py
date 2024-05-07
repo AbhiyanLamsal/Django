@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from .forms import StudentRegistration
 from django.http import HttpResponse
 from .models import User
+from django.contrib.auth.hashers import make_password, check_password
 # Create your views here.
 #This function will Add new items and show all data
 def add_show(request):
@@ -11,7 +12,10 @@ def add_show(request):
             nm = fm.cleaned_data['name']
             em = fm.cleaned_data['email']
             pw = fm.cleaned_data['password']
-            reg = User(name=nm, email=em, password=pw)
+            epa = make_password(pw)
+
+            
+            reg = User(name=nm, email=em, password=epa)
             reg.save()
             fm = StudentRegistration()
     else:
